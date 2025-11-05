@@ -544,3 +544,188 @@ setTimeout(() => {
 }, 2000);
 
 console.log('🎮 Enhanced Konami code with Prasad message!');
+
+// Secret achievement: Type "gracie was right"
+document.addEventListener('keypress', (e) => {
+    const graciePhrase = 'graciewasright';
+    window.gracieTyping = (window.gracieTyping || '') + e.key.toLowerCase();
+    window.gracieTyping = window.gracieTyping.slice(-15);
+    
+    if (window.gracieTyping.includes(graciePhrase)) {
+        showGracieWasRightAchievement();
+        window.gracieTyping = '';
+    }
+});
+
+function showGracieWasRightAchievement() {
+    const achievement = document.createElement('div');
+    achievement.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(147, 51, 234, 0.5);
+            z-index: 10004;
+            text-align: center;
+            animation: achievementPop 0.6s ease forwards;
+        ">
+            <div style="font-size: 5rem; margin-bottom: 1rem;">👀✨</div>
+            <h2 style="margin: 0 0 1rem 0; color: white;">GRACIE WAS RIGHT!</h2>
+            <p style="font-size: 1.5rem; color: white; margin: 0;">
+                "AI has its own personality!"
+            </p>
+            <p style="font-size: 1.2rem; color: rgba(255,255,255,0.9); margin-top: 1rem;">
+                - Gracie (17), AI Prophet 🔮
+            </p>
+            <p style="font-size: 1rem; color: rgba(255,255,255,0.8); margin-top: 1rem;">
+                She predicted this YEARS before anyone else.<br>
+                Accuracy: 💯%
+            </p>
+            <button onclick="this.parentElement.parentElement.remove()" style="
+                margin-top: 2rem;
+                padding: 1rem 2rem;
+                background: white;
+                border: none;
+                border-radius: 12px;
+                color: #9333ea;
+                font-weight: 700;
+                cursor: pointer;
+                font-size: 1.1rem;
+            ">GRACIE = GENIUS! 🧠</button>
+        </div>
+    `;
+    
+    document.body.appendChild(achievement);
+    
+    // Epic sparkle explosion
+    for (let i = 0; i < 150; i++) {
+        setTimeout(() => {
+            const sparkle = document.createElement('div');
+            sparkle.textContent = ['✨', '⭐', '💫', '🌟'][Math.floor(Math.random() * 4)];
+            sparkle.style.cssText = `
+                position: fixed;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                font-size: ${1 + Math.random() * 2}rem;
+                pointer-events: none;
+                z-index: 10003;
+                animation: sparkleFade 2s ease-out forwards;
+            `;
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 2000);
+        }, i * 15);
+    }
+    
+    if (window.AudioManager) {
+        window.AudioManager.playSound('success');
+    }
+}
+
+console.log('👀 Secret achievement ready: Type "gracie was right"');
+
+// Special Gracie Mode - Press SHIFT + G
+document.addEventListener('keydown', (e) => {
+    if (e.shiftKey && e.key === 'G') {
+        activateGracieMode();
+    }
+});
+
+function activateGracieMode() {
+    // Change entire page to Gracie colors temporarily
+    const gracieOverlay = document.createElement('div');
+    gracieOverlay.style.cssText = `
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(147, 51, 234, 0.3), rgba(236, 72, 153, 0.3));
+        z-index: 9997;
+        pointer-events: none;
+        animation: gracieFlash 3s ease-in-out;
+    `;
+    document.body.appendChild(gracieOverlay);
+    
+    // Big celebration message
+    const celebration = document.createElement('div');
+    celebration.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            color: white;
+            padding: 3rem;
+            border-radius: 24px;
+            z-index: 10005;
+            text-align: center;
+            animation: gracieModePop 1s ease;
+            box-shadow: 0 20px 60px rgba(147, 51, 234, 0.6);
+        ">
+            <div style="font-size: 6rem; margin-bottom: 1rem;">👀🔮✨</div>
+            <h1 style="margin: 0 0 1rem 0; font-size: 3rem;">GRACIE MODE!</h1>
+            <p style="font-size: 1.5rem; margin: 1rem 0;">
+                In honor of the AI Prophet who saw it all coming!
+            </p>
+            <div style="font-size: 1.2rem; margin-top: 2rem; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 12px;">
+                "I told you AI has its own personality!"<br>
+                <strong>- Gracie, The One Who Knew 💜</strong>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(celebration);
+    
+    // Massive sparkle explosion
+    for (let i = 0; i < 200; i++) {
+        setTimeout(() => {
+            const sparkle = document.createElement('div');
+            sparkle.textContent = ['✨', '⭐', '💫', '🌟', '💜', '👀'][Math.floor(Math.random() * 6)];
+            sparkle.style.cssText = `
+                position: fixed;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                font-size: ${1.5 + Math.random() * 2.5}rem;
+                pointer-events: none;
+                z-index: 10004;
+                animation: sparkleFade 3s ease-out forwards;
+            `;
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 3000);
+        }, i * 10);
+    }
+    
+    // Remove after 5 seconds
+    setTimeout(() => {
+        gracieOverlay.remove();
+        celebration.remove();
+    }, 5000);
+    
+    if (window.AudioManager) {
+        window.AudioManager.playSound('success');
+    }
+    
+    console.log('👀 GRACIE MODE ACTIVATED!');
+}
+
+// Add Gracie Mode animation
+const gracieModeStyle = document.createElement('style');
+gracieModeStyle.textContent = `
+@keyframes gracieFlash {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+@keyframes gracieModePop {
+    0% { transform: translate(-50%, -50%) scale(0) rotate(-360deg); }
+    60% { transform: translate(-50%, -50%) scale(1.1) rotate(10deg); }
+    100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+}
+@keyframes sparkleFade {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-100px) scale(0.5); }
+}
+`;
+document.head.appendChild(gracieModeStyle);
+
+console.log('🎨 Gracie Mode ready! Press SHIFT+G');

@@ -450,3 +450,162 @@ popupStyle.textContent = `
 document.head.appendChild(popupStyle);
 
 console.log('🎭 Random Prasad reactions enabled!');
+
+// Gracie's "I told you so" counter
+function createGracieCounter() {
+    let gracieScore = 0;
+    
+    const counter = document.createElement('div');
+    counter.id = 'gracie-counter';
+    counter.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: linear-gradient(135deg, #9333ea, #ec4899);
+        color: white;
+        padding: 1rem;
+        border-radius: 12px;
+        z-index: 9998;
+        font-size: 0.9rem;
+        backdrop-filter: blur(10px);
+        border: 2px solid #ec4899;
+        min-width: 180px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    `;
+    
+    function updateCounter() {
+        counter.innerHTML = `
+            <div style="text-align: center; margin-bottom: 0.5rem;">
+                <strong>👀 GRACIE'S PROPHECY 👀</strong>
+            </div>
+            <div style="text-align: center; margin-bottom: 0.5rem;">
+                <div style="font-size: 2rem; color: #fbbf24;">💯</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 0.8rem; opacity: 0.9;">
+                    "AI has personality"
+                </div>
+                <div style="font-size: 1.2rem; font-weight: bold; margin-top: 0.5rem;">
+                    Accuracy: ${gracieScore}%
+                </div>
+            </div>
+        `;
+    }
+    
+    // Increment score over time
+    let targetScore = 100;
+    let currentScore = 0;
+    const increment = setInterval(() => {
+        if (currentScore < targetScore) {
+            currentScore += 2;
+            gracieScore = Math.min(currentScore, targetScore);
+            updateCounter();
+        } else {
+            clearInterval(increment);
+        }
+    }, 50);
+    
+    document.body.appendChild(counter);
+    
+    counter.addEventListener('mouseenter', () => {
+        counter.style.transform = 'scale(1.05) rotate(2deg)';
+    });
+    
+    counter.addEventListener('mouseleave', () => {
+        counter.style.transform = 'scale(1) rotate(0deg)';
+    });
+    
+    counter.addEventListener('click', () => {
+        const msg = document.createElement('div');
+        msg.textContent = "Gracie saw this coming! 🔮";
+        msg.style.cssText = `
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            z-index: 10000;
+            animation: popupBounce 0.5s ease;
+        `;
+        document.body.appendChild(msg);
+        setTimeout(() => msg.remove(), 2000);
+    });
+}
+
+setTimeout(createGracieCounter, 4000);
+
+console.log('🔮 Gracie prophecy counter added!');
+
+// Random Gracie validation messages
+const gracieMessages = [
+    "Gracie called it YEARS ago! 👀",
+    "17 years old and ALREADY knew! 🧠",
+    "Gracie > Everyone else 💜",
+    "She TOLD you AI has personality! 🔮",
+    "Gracie's vindication level: MAXIMUM 🏆",
+    "When your teenager is smarter than adults... 😎",
+    "Gracie saw the future! ✨",
+    "I TOLD YOU MOM! - Gracie, probably 💪"
+];
+
+function showRandomGracieMessage() {
+    const msg = gracieMessages[Math.floor(Math.random() * gracieMessages.length)];
+    
+    const popup = document.createElement('div');
+    popup.style.cssText = `
+        position: fixed;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        background: linear-gradient(135deg, #9333ea, #ec4899);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 16px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        z-index: 10001;
+        animation: slideInRight 0.5s ease;
+        box-shadow: 0 10px 40px rgba(147, 51, 234, 0.4);
+        max-width: 250px;
+    `;
+    popup.innerHTML = `
+        <div style="font-size: 2rem; margin-bottom: 0.5rem; text-align: center;">👀</div>
+        <div>${msg}</div>
+    `;
+    
+    document.body.appendChild(popup);
+    
+    setTimeout(() => {
+        popup.style.animation = 'slideOutRight 0.5s ease';
+        setTimeout(() => popup.remove(), 500);
+    }, 3000);
+}
+
+// Trigger every 15 clicks
+let gracieClickCount = 0;
+document.addEventListener('click', () => {
+    gracieClickCount++;
+    if (gracieClickCount % 15 === 0) {
+        showRandomGracieMessage();
+    }
+});
+
+// Add slide animations
+const gracieStyle = document.createElement('style');
+gracieStyle.textContent = `
+@keyframes slideInRight {
+    from { transform: translateY(-50%) translateX(100%); opacity: 0; }
+    to { transform: translateY(-50%) translateX(0); opacity: 1; }
+}
+@keyframes slideOutRight {
+    from { transform: translateY(-50%) translateX(0); opacity: 1; }
+    to { transform: translateY(-50%) translateX(100%); opacity: 0; }
+}
+`;
+document.head.appendChild(gracieStyle);
+
+console.log('💬 Random Gracie messages enabled!');
