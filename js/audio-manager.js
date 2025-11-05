@@ -256,10 +256,34 @@ if (document.readyState === 'loading') {
 }
 
 // Special Prasad section audio in Marathi
-playPrasadNarration() {
+AudioManager.prototype.playPrasadNarration = function() {
     const marathiGreeting = new SpeechSynthesisUtterance('प्रिय प्रसाद, तुझी पत्नी खूप हुशार आहे!');
     marathiGreeting.lang = 'mr-IN';
     marathiGreeting.rate = 0.9;
     window.speechSynthesis.speak(marathiGreeting);
     console.log('🇮🇳 Speaking in Marathi for Prasad!');
 }
+// Quick browser speech for testing
+AudioManager.prototype.speak = function(text) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
+        console.log('🔊 Speaking:', text);
+    }
+};
+
+// Test on movie mode start
+document.addEventListener('DOMContentLoaded', () => {
+    const playBtn = document.getElementById('playMovieBtn');
+    if (playBtn && window.AudioManager) {
+        playBtn.addEventListener('click', () => {
+            if (window.AudioManager.speak) {
+                window.AudioManager.speak('Welcome to the Claude versus Claude epic saga!');
+            }
+        });
+    }
+});
+
+console.log('🔊 Audio Manager with browser speech loaded!');

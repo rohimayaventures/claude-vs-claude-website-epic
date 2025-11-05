@@ -106,3 +106,8 @@ if (document.readyState === 'loading') {
     window.particleSystem = new ParticleSystem();
     console.log('✨ Particle System initialized immediately!');
 }
+// Auto-initialize particle system
+document.addEventListener('DOMContentLoaded', () => {
+    window.particleSystem = new ParticleSystem();
+    console.log('✨ Particle system ready!');
+});
