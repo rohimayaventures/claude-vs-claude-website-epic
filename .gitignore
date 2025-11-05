@@ -2,6 +2,9 @@
 *.backup.html
 *-backup.*
 
+# Build output
+_site/
+
 # System files
 .DS_Store
 Thumbs.db
