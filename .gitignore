@@ -18,3 +18,22 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Environment variables
+.env
+.env.local
+
+# Inworld credentials
+inworld-config.json
+
+# Editor files
+*.swp
+*.swo
+*~
+
+# Node modules (if we add them)
+node_modules/
+package-lock.json
+
+# Audio cache
+assets/audio/cache/

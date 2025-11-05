@@ -1,0 +1,17 @@
+{
+  "name": "claude-vs-claude-epic-saga",
+  "version": "2.0.0",
+  "description": "The hilarious saga of Claude arguing with himself during a GitHub crisis",
+  "main": "index.html",
+  "scripts": {
+    "generate-voices": "node scripts/generate-voices.js",
+    "serve": "python3 -m http.server 8000"
+  },
+  "keywords": ["claude", "ai", "comedy", "github", "crisis"],
+  "author": "Hannah @ Rohimaya Ventures",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1"
+  }
+}
