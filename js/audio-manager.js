@@ -254,3 +254,12 @@ if (document.readyState === 'loading') {
     window.AudioManager = new AudioManager();
     console.log('🔊 Audio Manager initialized immediately!');
 }
+
+// Special Prasad section audio in Marathi
+playPrasadNarration() {
+    const marathiGreeting = new SpeechSynthesisUtterance('प्रिय प्रसाद, तुझी पत्नी खूप हुशार आहे!');
+    marathiGreeting.lang = 'mr-IN';
+    marathiGreeting.rate = 0.9;
+    window.speechSynthesis.speak(marathiGreeting);
+    console.log('🇮🇳 Speaking in Marathi for Prasad!');
+}

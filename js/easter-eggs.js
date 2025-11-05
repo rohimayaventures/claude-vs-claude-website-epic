@@ -425,3 +425,122 @@ class EasterEggs {
 window.EasterEggs = new EasterEggs();
 
 console.log('🥚 Easter Eggs loaded! Try to find all 7!');
+
+// Secret achievement: Type "prasad was wrong"
+document.addEventListener('keypress', (e) => {
+    const secretPhrase = 'prasadwaswrong';
+    window.secretTyping = (window.secretTyping || '') + e.key.toLowerCase();
+    window.secretTyping = window.secretTyping.slice(-15);
+    
+    if (window.secretTyping.includes(secretPhrase)) {
+        showPrasadWrongAchievement();
+        window.secretTyping = '';
+    }
+});
+
+function showPrasadWrongAchievement() {
+    const achievement = document.createElement('div');
+    achievement.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #FF8C42, #FFD700);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            z-index: 10003;
+            text-align: center;
+            animation: achievementPop 0.6s ease forwards;
+        ">
+            <div style="font-size: 5rem; margin-bottom: 1rem;">🏆</div>
+            <h2 style="margin: 0 0 1rem 0; color: white;">ACHIEVEMENT UNLOCKED!</h2>
+            <p style="font-size: 1.5rem; color: white; margin: 0;">
+                "Prasad Was Wrong About ChatGPT!"
+            </p>
+            <p style="font-size: 1rem; color: rgba(255,255,255,0.8); margin-top: 1rem;">
+                Claude built this masterpiece. Case closed. 😎
+            </p>
+            <button onclick="this.parentElement.parentElement.remove()" style="
+                margin-top: 2rem;
+                padding: 1rem 2rem;
+                background: white;
+                border: none;
+                border-radius: 12px;
+                color: #FF8C42;
+                font-weight: 700;
+                cursor: pointer;
+                font-size: 1.1rem;
+            ">I TOLD YOU SO! 🦚</button>
+        </div>
+    `;
+    
+    document.body.appendChild(achievement);
+    
+    if (window.AudioManager) {
+        window.AudioManager.playSound('applause');
+    }
+    
+    // Confetti explosion
+    for (let i = 0; i < 100; i++) {
+        setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.background = ['#FF8C42', '#FFD700', '#4A9B9B'][Math.floor(Math.random() * 3)];
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 3000);
+        }, i * 20);
+    }
+}
+
+// Add the animation CSS
+const style = document.createElement('style');
+style.textContent = `
+@keyframes achievementPop {
+    0% { transform: translate(-50%, -50%) scale(0) rotate(-180deg); }
+    60% { transform: translate(-50%, -50%) scale(1.1) rotate(10deg); }
+    100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+}
+`;
+document.head.appendChild(style);
+
+console.log('🏆 Secret achievement ready: Type "prasad was wrong"');
+
+// Add Prasad surprise to Konami code
+setTimeout(() => {
+    const originalKonamiEffect = window.EasterEggs.konamiEffect;
+    window.EasterEggs.konamiEffect = function() {
+        originalKonamiEffect.call(this);
+        
+        // Add Prasad surprise
+        setTimeout(() => {
+            const surprise = document.createElement('div');
+            surprise.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #4A9B9B, #6BC1C1);
+                color: white;
+                padding: 1.5rem;
+                border-radius: 16px;
+                z-index: 10002;
+                animation: slideInRight 0.5s ease;
+                max-width: 300px;
+            `;
+            surprise.innerHTML = `
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧑‍💻🇮🇳</div>
+                <strong>Message for Prasad:</strong>
+                <p style="margin: 0.5rem 0 0 0;">
+                    Your wife just unlocked the Konami code. 
+                    Still think ChatGPT is better? 😏
+                </p>
+            `;
+            document.body.appendChild(surprise);
+            setTimeout(() => surprise.remove(), 5000);
+        }, 1000);
+    };
+}, 2000);
+
+console.log('🎮 Enhanced Konami code with Prasad message!');

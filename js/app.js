@@ -330,3 +330,123 @@ window.AppUtils = {
 };
 
 console.log('🎉 App.js loaded successfully!');
+
+// Create Claude vs ChatGPT scorecard
+function createScorecard() {
+    const scorecard = document.createElement('div');
+    scorecard.id = 'ai-scorecard';
+    scorecard.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background: rgba(26, 26, 46, 0.95);
+        color: white;
+        padding: 1rem;
+        border-radius: 12px;
+        z-index: 9999;
+        font-size: 0.9rem;
+        backdrop-filter: blur(10px);
+        border: 2px solid #FF8C42;
+        min-width: 200px;
+        cursor: pointer;
+    `;
+    
+    scorecard.innerHTML = `
+        <div style="text-align: center; margin-bottom: 0.5rem;">
+            <strong>🤖 AI SHOWDOWN 🤖</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>🟣 Claude:</span>
+            <span style="color: #FFD700; font-weight: bold;">4,200 lines</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span>🟢 ChatGPT:</span>
+            <span style="color: #666;">Still planning...</span>
+        </div>
+        <div style="text-align: center; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
+            <small>Built in 90 minutes ⚡</small>
+        </div>
+    `;
+    
+    document.body.appendChild(scorecard);
+    
+    // Add hover effect
+    scorecard.addEventListener('mouseenter', () => {
+        scorecard.style.transform = 'scale(1.05)';
+        scorecard.style.transition = 'transform 0.3s ease';
+    });
+    
+    scorecard.addEventListener('mouseleave', () => {
+        scorecard.style.transform = 'scale(1)';
+    });
+}
+
+// Add after a few seconds
+setTimeout(createScorecard, 3000);
+
+console.log('📊 Added live AI scorecard!');
+
+// Random Prasad reactions
+const prasadReactions = [
+    "Prasad is going to be SHOCKED! 🤯",
+    "Wait till Prasad sees THIS feature! 😎",
+    "ChatGPT could NEVER! 💪",
+    "Prasad: 'Okay, you were right...' 🦚",
+    "Hannah: 1, ChatGPT: 0 🏆",
+    "Still think ChatGPT is better, Prasad? 😏",
+    "This is why Claude > ChatGPT 🔥",
+    "Prasad's jaw = DROPPED 💀"
+];
+
+function showRandomPrasadReaction() {
+    const reaction = prasadReactions[Math.floor(Math.random() * prasadReactions.length)];
+    
+    const popup = document.createElement('div');
+    popup.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, #FF8C42, #FFD700);
+        color: white;
+        padding: 2rem 3rem;
+        border-radius: 16px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        z-index: 10001;
+        animation: popupBounce 0.5s ease;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    `;
+    popup.textContent = reaction;
+    
+    document.body.appendChild(popup);
+    
+    setTimeout(() => {
+        popup.style.animation = 'popupFadeOut 0.5s ease';
+        setTimeout(() => popup.remove(), 500);
+    }, 2000);
+}
+
+// Trigger random reactions during interactions
+let interactionCount = 0;
+document.addEventListener('click', () => {
+    interactionCount++;
+    if (interactionCount % 10 === 0) {
+        showRandomPrasadReaction();
+    }
+});
+
+// Add animations
+const popupStyle = document.createElement('style');
+popupStyle.textContent = `
+@keyframes popupBounce {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+}
+@keyframes popupFadeOut {
+    to { opacity: 0; transform: translate(-50%, -60%); }
+}
+`;
+document.head.appendChild(popupStyle);
+
+console.log('🎭 Random Prasad reactions enabled!');
