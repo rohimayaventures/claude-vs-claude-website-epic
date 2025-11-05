@@ -95,3 +95,14 @@ window.createParticles = function(x, y, type) {
 };
 
 console.log('✨ Animations.js loaded!');
+
+// Auto-initialize particle system when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.particleSystem = new ParticleSystem();
+        console.log('✨ Particle System auto-initialized!');
+    });
+} else {
+    window.particleSystem = new ParticleSystem();
+    console.log('✨ Particle System initialized immediately!');
+}

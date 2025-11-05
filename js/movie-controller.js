@@ -333,3 +333,14 @@ class MovieController {
 window.MovieController = new MovieController();
 
 console.log('🎬 Movie Controller loaded!');
+
+// Auto-initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.MovieController = new MovieController();
+        console.log('🎬 Movie Controller auto-initialized!');
+    });
+} else {
+    window.MovieController = new MovieController();
+    console.log('🎬 Movie Controller initialized immediately!');
+}

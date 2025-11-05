@@ -243,3 +243,14 @@ window.AudioManager = new AudioManager();
 window.AudioManager.loadVoiceFiles();
 
 console.log('�� Audio Manager loaded!');
+
+// Auto-initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.AudioManager = new AudioManager();
+        console.log('🔊 Audio Manager auto-initialized!');
+    });
+} else {
+    window.AudioManager = new AudioManager();
+    console.log('🔊 Audio Manager initialized immediately!');
+}
