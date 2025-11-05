@@ -1185,6 +1185,47 @@
         `;
         document.head.appendChild(style);
     </script>
+<!-- AUDIO CONTROLS PANEL -->
+    <div id="audioControls" style="position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #1A1A2E, #4A9B9B); padding: 20px; border-radius: 15px; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); min-width: 250px;">
+        <h3 style="color: #FFD700; margin-bottom: 15px; text-align: center; font-size: 1.2em;">🎬 MOVIE CONTROLS</h3>
+        
+        <button id="playMovieBtn" onclick="startMovieMode()" style="width: 100%; padding: 15px; margin: 10px 0; background: #FF8C42; color: white; border: none; border-radius: 10px; font-size: 1.1em; cursor: pointer; font-weight: bold; transition: all 0.3s ease;">
+            🎬 PLAY MOVIE MODE
+        </button>
+        
+        <button id="pauseMovieBtn" onclick="pauseMovieMode()" style="width: 100%; padding: 15px; margin: 10px 0; background: #4A9B9B; color: white; border: none; border-radius: 10px; font-size: 1.1em; cursor: pointer; font-weight: bold; display: none; transition: all 0.3s ease;">
+            ⏸️ PAUSE MOVIE
+        </button>
+        
+        <div style="margin: 15px 0;">
+            <label style="color: #FFF8E7; font-size: 0.9em; display: block; margin-bottom: 5px;">🔊 Volume</label>
+            <input type="range" id="volumeControl" min="0" max="100" value="70" onchange="updateVolume(this.value)" style="width: 100%;">
+        </div>
+        
+        <div style="margin: 15px 0; display: flex; justify-content: space-between; align-items: center;">
+            <label style="color: #FFF8E7; font-size: 0.9em;">🎵 Music</label>
+            <button id="musicToggle" onclick="toggleMusic()" style="padding: 8px 15px; background: #FFD700; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: #1A1A2E;">ON</button>
+        </div>
+        
+        <div style="margin: 15px 0; display: flex; justify-content: space-between; align-items: center;">
+            <label style="color: #FFF8E7; font-size: 0.9em;">🗣️ Narration</label>
+            <button id="narrationToggle" onclick="toggleNarration()" style="padding: 8px 15px; background: #FFD700; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: #1A1A2E;">ON</button>
+        </div>
+        
+        <div style="margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 5px; text-align: center;">
+            <span id="movieStatus" style="color: #FFD700; font-size: 0.9em;">Ready to play! 🦚</span>
+        </div>
+    </div>
 
+    <!-- BACKGROUND MUSIC -->
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/audio/2022/03/10/audio_4f0e6f5a46.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- MOVIE MODE SCRIPT -->
+    <script src="movie-mode.js"></script>
+
+</body>
+</html>
 </body>
 </html>
