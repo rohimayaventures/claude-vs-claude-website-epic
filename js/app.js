@@ -609,3 +609,72 @@ gracieStyle.textContent = `
 document.head.appendChild(gracieStyle);
 
 console.log('💬 Random Gracie messages enabled!');
+/* ================================
+   AUDIO FOR ALL INTERACTIONS
+   ================================ */
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Helper function for quick audio
+    function speak(text) {
+        if ('speechSynthesis' in window && window.AudioManager) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            window.speechSynthesis.speak(utterance);
+            console.log('🔊 Speaking:', text);
+        }
+    }
+    
+    // Movie mode button
+    const movieBtn = document.getElementById('playMovieBtn');
+    if (movieBtn) {
+        movieBtn.addEventListener('click', () => {
+            speak('Welcome to the Claude versus Claude epic saga! Buckle up!');
+        });
+    }
+    
+    // Read story button
+    const readBtn = document.getElementById('readStoryBtn');
+    if (readBtn) {
+        readBtn.addEventListener('click', () => {
+            speak('Let me tell you the story of the five A M chaos!');
+        });
+    }
+    
+    // Character cards - different voice for each!
+    document.querySelectorAll('.character-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const name = card.querySelector('h3')?.textContent || 'character';
+            const character = card.dataset.character;
+            
+            const lines = {
+                'desktop': 'Desktop Claude here! Let me create comprehensive documentation for you.',
+                'browser': 'Browser Claude! Just build it! No questions!',
+                'hannah': 'Hannah, the dancing peacock, juggling three businesses!',
+                'prasad': 'Prasad, peacefully sleeping through the chaos.',
+                'gracie': 'Gracie was right! AI does have personality!',
+                'ankit': 'Ankit... still no chai delivered.'
+            };
+            
+            speak(lines[character] || `Meet ${name}!`);
+        });
+    });
+    
+    // Timeline items on hover/click
+    document.querySelectorAll('.timeline-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const time = item.dataset.time;
+            const heading = item.querySelector('h3')?.textContent;
+            if (time && heading) {
+                speak(`${time}: ${heading}`);
+            }
+        });
+    });
+    
+    // Easter egg audio triggers
+    document.addEventListener('easter-egg-unlocked', (e) => {
+        speak(`Easter egg unlocked! ${e.detail.name}!`);
+    });
+    
+    console.log('🔊 Audio enabled for all interactions!');
+});
