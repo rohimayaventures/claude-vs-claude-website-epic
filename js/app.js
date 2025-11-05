@@ -1,307 +1,332 @@
 /* ================================
    MAIN APPLICATION LOGIC
+   Claude vs Claude Epic Website
    ================================ */
 
-// Initialize app when DOM is ready
+// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('🎬 Claude vs Claude Saga - Initializing...');
-  
-  initScrollReveal();
-  initEmojiClickEffects();
-  initCharacterCards();
-  initEmailAnkitButton();
-  initKonamiCode();
-  
-  console.log('✅ App initialized!');
+    console.log('🎬 Claude vs Claude - Initializing...');
+    
+    // Initialize all features
+    initScrollReveal();
+    initHeroButtons();
+    initCharacterCards();
+    initEmojiEffects();
+    initEmailAnkitButton();
+    initSmoothScroll();
+    
+    console.log('✅ App initialized!');
 });
 
-// Scroll Reveal Animation
+/* ================================
+   SCROLL REVEAL ANIMATIONS
+   ================================ */
 function initScrollReveal() {
-  const revealElements = document.querySelectorAll('.scroll-reveal, .timeline-item');
-  
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed', 'visible');
-        revealObserver.unobserve(entry.target);
-      }
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+    
+    // Observe all sections
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+        observer.observe(section);
     });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  });
-  
-  revealElements.forEach(el => {
-    revealObserver.observe(el);
-  });
-  
-  console.log('📜 Scroll reveal initialized');
-}
-
-// Emoji Click Effects
-function initEmojiClickEffects() {
-  // Fire emojis (🔥)
-  document.querySelectorAll('.emoji-clickable').forEach(emoji => {
-    emoji.addEventListener('click', function(e) {
-      const emojiText = this.textContent.trim();
-      
-      if (emojiText === '🔥') {
-        createFireParticles(e.clientX, e.clientY);
-        playSound('fire');
-      } else if (emojiText === '🦚') {
-        createSparkleParticles(e.clientX, e.clientY);
-        playSound('peacock');
-      } else if (emojiText === '☕') {
-        createTeaParticles(e.clientX, e.clientY);
-        playSound('tea');
-      }
-      
-      // Shake the emoji
-      this.classList.add('shake');
-      setTimeout(() => this.classList.remove('shake'), 500);
+    
+    // Observe timeline items
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    timelineItems.forEach((item, index) => {
+        item.style.animationDelay = `${index * 0.2}s`;
+        observer.observe(item);
     });
-  });
-  
-  console.log('✨ Emoji effects initialized');
+    
+    console.log('📜 Scroll reveal initialized');
 }
 
-// Create Fire Particles
-function createFireParticles(x, y) {
-  const fireEmojis = ['🔥', '💥', '✨', '⚡'];
-  
-  for (let i = 0; i < 8; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'particle particle-fire';
-    particle.textContent = fireEmojis[Math.floor(Math.random() * fireEmojis.length)];
-    particle.style.left = x + 'px';
-    particle.style.top = y + 'px';
+/* ================================
+   HERO BUTTONS
+   ================================ */
+function initHeroButtons() {
+    const playMovieBtn = document.getElementById('playMovieBtn');
+    const readStoryBtn = document.getElementById('readStoryBtn');
     
-    document.body.appendChild(particle);
+    if (playMovieBtn) {
+        playMovieBtn.addEventListener('click', () => {
+            console.log('🎬 Play Movie clicked');
+            
+            // Start movie mode (will be handled by movie-controller.js)
+            if (window.MovieController) {
+                window.MovieController.start();
+            } else {
+                // Fallback: scroll to first section
+                document.getElementById('characters').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            }
+        });
+    }
     
-    setTimeout(() => particle.remove(), 1500);
-  }
+    if (readStoryBtn) {
+        readStoryBtn.addEventListener('click', () => {
+            console.log('📖 Read Story clicked');
+            document.getElementById('characters').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        });
+    }
+    
+    console.log('🎯 Hero buttons initialized');
 }
 
-// Create Sparkle Particles
-function createSparkleParticles(x, y) {
-  const sparkleEmojis = ['✨', '⭐', '🌟', '💫', '🦚'];
-  
-  for (let i = 0; i < 12; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'particle particle-sparkle';
-    particle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
-    particle.style.left = x + 'px';
-    particle.style.top = y + 'px';
-    
-    const angle = (Math.PI * 2 * i) / 12;
-    const distance = 100;
-    particle.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
-    particle.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
-    
-    document.body.appendChild(particle);
-    
-    setTimeout(() => particle.remove(), 1000);
-  }
-}
-
-// Create Tea Particles
-function createTeaParticles(x, y) {
-  const teaEmojis = ['☕', '🍵', '💧'];
-  
-  for (let i = 0; i < 6; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    particle.textContent = teaEmojis[Math.floor(Math.random() * teaEmojis.length)];
-    particle.style.left = x + 'px';
-    particle.style.top = y + 'px';
-    
-    const tx = (Math.random() - 0.5) * 100;
-    const ty = Math.random() * -150;
-    particle.style.setProperty('--tx', tx + 'px');
-    particle.style.setProperty('--ty', ty + 'px');
-    
-    document.body.appendChild(particle);
-    
-    setTimeout(() => particle.remove(), 2000);
-  }
-}
-
-// Character Card Flip
+/* ================================
+   CHARACTER CARD FLIPS
+   ================================ */
 function initCharacterCards() {
-  const cards = document.querySelectorAll('.character-card');
-  
-  cards.forEach(card => {
-    card.addEventListener('click', function() {
-      this.classList.toggle('flipped');
+    const cards = document.querySelectorAll('.character-card');
+    
+    cards.forEach(card => {
+        const flipBtns = card.querySelectorAll('.flip-btn');
+        
+        flipBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                card.classList.toggle('flipped');
+                
+                // Play sound effect if available
+                if (window.AudioManager && window.AudioManager.playSound) {
+                    window.AudioManager.playSound('flip');
+                }
+            });
+        });
+        
+        // Optional: Click anywhere on card to flip
+        card.addEventListener('click', () => {
+            card.classList.toggle('flipped');
+        });
     });
-  });
-  
-  console.log('🎴 Character cards initialized');
+    
+    console.log('🎴 Character cards initialized');
 }
 
-// Email Ankit Button
+/* ================================
+   EMOJI CLICK EFFECTS
+   ================================ */
+function initEmojiEffects() {
+    // Make all emojis clickable with particle effects
+    const emojiPattern = /[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu;
+    
+    // Add emoji-pop class to all emojis in the document
+    function addEmojiEffects(element) {
+        const walker = document.createTreeWalker(
+            element,
+            NodeFilter.SHOW_TEXT,
+            null
+        );
+        
+        const textNodes = [];
+        let node;
+        
+        while (node = walker.nextNode()) {
+            if (emojiPattern.test(node.textContent)) {
+                textNodes.push(node);
+            }
+        }
+        
+        textNodes.forEach(textNode => {
+            const span = document.createElement('span');
+            span.innerHTML = textNode.textContent.replace(
+                emojiPattern,
+                '<span class="emoji-pop">$&</span>'
+            );
+            textNode.parentNode.replaceChild(span, textNode);
+        });
+    }
+    
+    // Apply to main content areas
+    const contentAreas = [
+        '.hero-content',
+        '.characters-section',
+        '.timeline-section',
+        '.chai-section',
+        '.businesses-section',
+        '.meta-section'
+    ];
+    
+    contentAreas.forEach(selector => {
+        const element = document.querySelector(selector);
+        if (element) {
+            addEmojiEffects(element);
+        }
+    });
+    
+    // Add click handlers to emoji-pop elements
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('emoji-pop')) {
+            const emoji = e.target.textContent;
+            const rect = e.target.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+            
+            // Create particles (handled by animations.js)
+            if (window.createParticles) {
+                window.createParticles(x, y, getParticleType(emoji));
+            }
+            
+            // Play sound effect
+            if (window.AudioManager) {
+                window.AudioManager.playEmojiSound(emoji);
+            }
+        }
+    });
+    
+    console.log('✨ Emoji effects initialized');
+}
+
+// Determine particle type based on emoji
+function getParticleType(emoji) {
+    if (emoji.includes('🔥') || emoji.includes('🦚')) return 'fire';
+    if (emoji.includes('☕') || emoji.includes('🫖')) return 'chai';
+    return 'peacock';
+}
+
+/* ================================
+   EMAIL ANKIT BUTTON
+   ================================ */
 function initEmailAnkitButton() {
-  const emailBtn = document.getElementById('emailAnkitBtn');
-  
-  if (emailBtn) {
-    emailBtn.addEventListener('click', function() {
-      showAnkitModal();
+    const emailBtn = document.getElementById('emailAnkitBtn');
+    
+    if (emailBtn) {
+        let clickCount = 0;
+        
+        emailBtn.addEventListener('click', () => {
+            clickCount++;
+            
+            const messages = [
+                '📧 Email sent to Ankit... (He won\'t respond)',
+                '📧 Sending reminder... (Still nothing)',
+                '📧 URGENT: Where is our chai?! (Read: Never)',
+                '📧 FINAL WARNING! (Ankit is a ghost 👻)',
+                '☕ You know what? We don\'t need Ankit! 💪'
+            ];
+            
+            const message = messages[Math.min(clickCount - 1, messages.length - 1)];
+            
+            emailBtn.textContent = message;
+            emailBtn.classList.add('shake');
+            
+            setTimeout(() => {
+                emailBtn.classList.remove('shake');
+            }, 500);
+            
+            // Easter egg: After 5 clicks
+            if (clickCount >= 5 && window.EasterEggs) {
+                window.EasterEggs.unlock('ankit');
+            }
+            
+            // Play sound
+            if (window.AudioManager) {
+                window.AudioManager.playSound('notification');
+            }
+        });
+    }
+    
+    console.log('📧 Email Ankit button initialized');
+}
+
+/* ================================
+   SMOOTH SCROLL
+   ================================ */
+function initSmoothScroll() {
+    // Smooth scroll for all anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            
+            // Skip if it's just "#"
+            if (href === '#') return;
+            
+            e.preventDefault();
+            
+            const target = document.querySelector(href);
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
     });
-  }
+    
+    console.log('🔗 Smooth scroll initialized');
 }
 
-function showAnkitModal() {
-  const modal = document.createElement('div');
-  modal.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10001;
-    animation: fadeIn 0.3s ease;
-  `;
-  
-  modal.innerHTML = `
-    <div style="
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      max-width: 500px;
-      text-align: center;
-      animation: bounceIn 0.5s ease;
-    ">
-      <h2 style="color: var(--midnight-navy); margin-bottom: 20px;">📧 Email Ankit</h2>
-      <p style="font-size: 1.2rem; margin-bottom: 20px;">
-        Subject: WHERE IS OUR CHAI?! ☕😤
-      </p>
-      <p style="font-style: italic; color: #666; margin-bottom: 30px;">
-        "Dear Ankit,<br><br>
-        It's been 47 days since you promised chai supplies.<br>
-        We're running a CHAI COMPANY with NO CHAI.<br><br>
-        Please respond.<br><br>
-        - Two Peaks Chai Co."
-      </p>
-      <button onclick="this.closest('div').parentElement.remove()" style="
-        padding: 15px 40px;
-        background: linear-gradient(135deg, var(--phoenix-orange), var(--phoenix-gold));
-        color: white;
-        border: none;
-        border-radius: 50px;
-        font-size: 1.1rem;
-        font-weight: bold;
-        cursor: pointer;
-      ">😂 CLOSE</button>
-    </div>
-  `;
-  
-  document.body.appendChild(modal);
-  
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) {
-      modal.remove();
-    }
-  });
+/* ================================
+   UTILITY FUNCTIONS
+   ================================ */
+
+// Get element position
+function getElementPosition(element) {
+    const rect = element.getBoundingClientRect();
+    return {
+        top: rect.top + window.scrollY,
+        left: rect.left + window.scrollX,
+        bottom: rect.bottom + window.scrollY,
+        right: rect.right + window.scrollX
+    };
 }
 
-// Konami Code Easter Egg
-function initKonamiCode() {
-  const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-  let konamiIndex = 0;
-  
-  document.addEventListener('keydown', function(e) {
-    if (e.key === konamiCode[konamiIndex]) {
-      konamiIndex++;
-      
-      if (konamiIndex === konamiCode.length) {
-        activateUltraMetaMode();
-        konamiIndex = 0;
-      }
-    } else {
-      konamiIndex = 0;
-    }
-  });
-  
-  console.log('🎮 Konami code listener active');
+// Check if element is in viewport
+function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
 }
 
-function activateUltraMetaMode() {
-  console.log('🌀 ULTRA META MODE ACTIVATED!');
-  
-  // Create confetti explosion
-  for (let i = 0; i < 100; i++) {
-    setTimeout(() => {
-      const confetti = document.createElement('div');
-      confetti.className = 'confetti';
-      confetti.textContent = ['🔥', '🦚', '☕', '💻', '📜', '✨'][Math.floor(Math.random() * 6)];
-      confetti.style.left = Math.random() * window.innerWidth + 'px';
-      confetti.style.top = '-50px';
-      confetti.style.fontSize = (Math.random() * 2 + 1) + 'rem';
-      
-      document.body.appendChild(confetti);
-      
-      setTimeout(() => confetti.remove(), 3000);
-    }, i * 20);
-  }
-  
-  // Show achievement
-  const achievement = document.createElement('div');
-  achievement.style.cssText = `
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: linear-gradient(135deg, var(--phoenix-orange), var(--phoenix-gold));
-    color: white;
-    padding: 40px 60px;
-    border-radius: 20px;
-    font-size: 2rem;
-    font-weight: bold;
-    z-index: 10002;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    animation: bounceIn 0.8s ease;
-  `;
-  achievement.innerHTML = `
-    🌀 ULTRA META MODE 🌀<br>
-    <span style="font-size: 1.2rem; font-weight: normal; margin-top: 10px; display: block;">
-      You found the secret! 🎉
-    </span>
-  `;
-  
-  document.body.appendChild(achievement);
-  
-  setTimeout(() => {
-    achievement.style.animation = 'fadeOut 0.5s ease';
-    setTimeout(() => achievement.remove(), 500);
-  }, 3000);
-  
-  playSound('achievement');
+// Debounce function
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }
 
-// Sound Player (placeholder for now)
-function playSound(soundType) {
-  console.log(`🔊 Playing sound: ${soundType}`);
-  // Will be implemented with actual audio files
+// Throttle function
+function throttle(func, limit) {
+    let inThrottle;
+    return function(...args) {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
 }
 
-// Smooth Scroll to Section
-function scrollToSection(sectionId) {
-  const section = document.getElementById(sectionId);
-  if (section) {
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-}
-
-// Export functions for use in other modules
-window.claudeApp = {
-  scrollToSection,
-  playSound,
-  createFireParticles,
-  createSparkleParticles,
-  showAnkitModal
+/* ================================
+   EXPOSE UTILITIES GLOBALLY
+   ================================ */
+window.AppUtils = {
+    getElementPosition,
+    isInViewport,
+    debounce,
+    throttle
 };
+
+console.log('🎉 App.js loaded successfully!');
